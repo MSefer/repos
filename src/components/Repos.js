@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../App.css';
 import { NavLink } from "react-router-dom";
+import { useStateValue } from '../context/repoContext';
 
 function Repos() {
   const [repos, setRepos] = useState({ repos: [] });
   const [isLoading, setIsLoading] = useState(true);
+  const [state, dispatch] = useStateValue(); 
 
   useEffect(() => {
     async function getRepos() {
@@ -23,7 +25,7 @@ function Repos() {
       <ul className="wrapper">
         {isLoading ? 'Yükleniyor...' : repos.map(repo => (
           <li className="list-item" key={repo.id}>
-            <NavLink to={`/repo/${repo.name}`}>{repo.name}</NavLink>
+            <NavLink onClick={() => dispatch({type:'changeRepo',payload:repo})} to={`/repo/${repo.name}`}>{repo.name}</NavLink>
           </li>
         ))}
       </ul>

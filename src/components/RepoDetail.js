@@ -4,19 +4,19 @@ import '../App.css';
 import { NavLink } from "react-router-dom";
 import { useStateValue } from '../context/repoContext'
 
-function RepoDetail({ match }) {
-  const { params: { repoName } } = match;
-  const [repo, setRepo] = useState({ repo: [] });
+function RepoDetail() {
   const [isLoading, setIsLoading] = useState(true);
   const [state, dispatch] = useStateValue();
+  const { repo } = state;
 
+  // It will rerender when second parameter is changed 
   useEffect(() => {
     async function getRepo() {
-      let response = await axios(`https://api.github.com/repos/reactjs/${repoName}`);
-      setRepo(response.data);
+      let response = await axios(`https://api.github.com/repos/reactjs/${repo.name}`);
+
       setIsLoading(false);
 
-      // Change repo state
+      // Change value of repo state
       dispatch({type:'changeRepo',payload:response.data});
     }  
     getRepo();
@@ -24,7 +24,7 @@ function RepoDetail({ match }) {
 
   return (
     <React.Fragment>
-      {isLoading ? "Yükleniyoooo" : <div className="wrapper">
+      {isLoading ? "Yükleniyor..." : <div className="wrapper">
         <h2>{repo.full_name}</h2>
         <p>Watch: {repo.subscribers_count}</p>
         <p>Star: {repo.stargazers_count}</p>

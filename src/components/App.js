@@ -21,9 +21,7 @@ function App() {
             <Route path="/repo/:repoName/pull-requests" component={PullRequests}></Route>
             <Route path="/repo/:repoName/issues" component={Issues}></Route>
             <Route path="/repo/:repoName" component={RepoDetail}></Route>
-            <Route path="/">
-              <Repos />
-            </Route>
+            <Route path="/"><Repos /></Route>
           </Switch>
         </Router>
       </div>
